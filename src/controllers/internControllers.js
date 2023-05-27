@@ -2,7 +2,7 @@ const internModel = require("../models/internModel");
 const collegeModel = require("../models/collegeModel");
 
 const isValid = function (value) {
-  if (typeof value === "undefined" || value === null) return false;
+  if (typeof value === "undefined") return false;
   if (typeof value === "string" && value.length === 0) return false;
   return true;
 };
@@ -109,7 +109,7 @@ const createIntern = async function (req, res) {
     }
 
     // COLLEGEID===COLLEGENAME
-    const collegeId = collegenameDetails["_id"];
+    const collegeId = collegenameDetails._id;
 
     // EXTRACT INTERN PARAMS
     const interndata = { name, email, mobile, collegeId };

@@ -1,8 +1,8 @@
-const { now } = require("mongoose");
+//const { now } = require("mongoose");
 const collegeModel = require("../models/collegeModel");
 const internModel = require("../models/internModel");
 
-const isvalidRequestBody = function (requestbody) {
+function isvalidRequestBody(requestbody) {
   return Object.keys(requestbody).length > 0;
 };
 
@@ -85,12 +85,13 @@ const collegeDetails = async function (req, res) {
         .status(404)
         .send({ status: false, message: "No college with this name" });
     }
-
+    
     const filtercollege = {
       name: college.name,
       fullName: college.fullName,
-      logoLink: college.logoLink,
+      logoLink: college.logoLink
     };
+    
     const Id = college._id;
     const interns = await internModel.find({ collegeId: Id, isDeleted: false });
     
@@ -100,12 +101,17 @@ const collegeDetails = async function (req, res) {
     }
 
     if (interns.length===0){
-      interns.push("no intern applied yet")
-      filtercollege.interests = interns;
+      const filtercollege = {
+        name: college.name,
+        fullName: college.fullName,
+        logoLink: college.logoLink,
+        interests :["no intern applied yet"]
+      };
+      // // interns.push("no intern applied yet")
+      // filtercollege.interests.interns =["no intern applied yet"] ;
       res.status(200).send({ status: true, data: filtercollege });
     }
 
-  
   } catch (error){
     res.status(500).send({ status: false, msg: error.message });
   }
